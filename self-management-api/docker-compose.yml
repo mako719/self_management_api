@@ -1,0 +1,51 @@
+version: '3'
+services:
+  api-nginx:
+    container_name: "api-nginx"
+    build:
+      context: ./docker/nginx
+    depends_on:
+      - api-app
+    ports:
+      - 80:80
+    volumes:
+      - ./:/src
+
+  api-app:
+    container_name: "api-app"
+    build:
+      context: ./docker/php
+    depends_on:
+      - api-mysql
+    volumes:
+      - ./:/src
+      - /src/node_modules
+      - /src/vendor
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+
+  api-mysql:
+    image: mysql:8.0.33
+    command: --max_allowed_packet=32505856
+    container_name: "api-mysql"
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=self-management
+    ports:
+      - 3306:3306
+
+  mail:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "8025:8025"
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp
+
+  api-redis:
+    image: redis:alpine
+    container_name: "api-redis"
+    ports:
+      - 16379:6379
