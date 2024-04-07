@@ -185,4 +185,7 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    // API認証
+    'api_secret_key' => env('API_SECRET_KEY'),
+
 ];
