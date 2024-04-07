@@ -10,6 +10,8 @@ services:
       - 80:80
     volumes:
       - ./:/src
+    networks:
+      - self_management
 
   api-app:
     container_name: "api-app"
@@ -22,6 +24,8 @@ services:
       - /src/node_modules
       - /src/vendor
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+    networks:
+      - self_management
 
   api-mysql:
     image: mysql:8.0.33
@@ -34,6 +38,8 @@ services:
       - MYSQL_DATABASE=self-management
     ports:
       - 3306:3306
+    networks:
+      - self_management
 
   mail:
     image: mailhog/mailhog
@@ -43,9 +49,17 @@ services:
     environment:
       MH_STORAGE: maildir
       MH_MAILDIR_PATH: /tmp
+    networks:
+      - self_management
 
   api-redis:
     image: redis:alpine
     container_name: "api-redis"
     ports:
       - 16379:6379
+    networks:
+      - self_management
+
+networks:
+  self_management:
+    external: true
