@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 class AuthenticateAPIRequest
 {
+    /**
+     * Frontからのリクエストのトークン判定
+     *
+     * @param Illuminate\Http\Request $request
+     * @param Closure $next
+     * @return Closure $next
+     */
     public function handle(Request $request, Closure $next)
     {
         // リクエストからsecret keyを取得
