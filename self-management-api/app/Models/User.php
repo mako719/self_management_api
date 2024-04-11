@@ -21,9 +21,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'kana',
-        'birthday',
         'email',
         'password',
+        'google_oauth',
     ];
 
     /**
@@ -42,7 +42,6 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'birthday' => 'date',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
