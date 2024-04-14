@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('kana');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->boolean('google_oauth');
+            $table->string('name')->comment('名前');
+            $table->string('kana')->nullable()->comment('カナ');
+            $table->string('email')->unique()->comment('メールアドレス');
+            $table->timestamp('email_verified_at')->nullable()->comment('メールアドレス確認日時');
+            $table->string('password')->comment('パスワード');
+            $table->rememberToken()->comment('名前')->comment('パスワードリセット用トークン');
+            $table->boolean('oauth')->comment('OAuth 0:通常会員、1:Google');
             $table->timestamps();
             $table->softDeletes()->nullable();
         });
