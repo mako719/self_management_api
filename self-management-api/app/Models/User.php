@@ -23,7 +23,8 @@ class User extends Authenticatable
         'kana',
         'email',
         'password',
-        'google_oauth',
+        'oauth',
+        'status',
     ];
 
     /**

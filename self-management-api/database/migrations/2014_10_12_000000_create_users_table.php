@@ -19,7 +19,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable()->comment('メールアドレス確認日時');
             $table->string('password')->comment('パスワード');
             $table->rememberToken()->comment('名前')->comment('パスワードリセット用トークン');
-            $table->boolean('oauth')->comment('OAuth 0:通常会員、1:Google');
+            $table->integer('oauth')->comment('OAuth 1:通常会員、2:Google');
+            $table->integer('status')->comment('会員ステータス 1:仮会員、2:本会員');
             $table->timestamps();
             $table->softDeletes()->nullable();
         });
