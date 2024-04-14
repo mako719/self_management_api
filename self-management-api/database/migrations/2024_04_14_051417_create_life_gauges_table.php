@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->comment('ユーザーID');
             $table->string('name')->comment('名前');
             $table->date('date_of_birth')->comment('生年月日');
-            $table->integer('target_lifespan')->comment('目標寿命');
+            $table->integer('target_lifespan')->comment('目標寿命')->nullable();
             $table->boolean('is_user')->comment('本人 0:本人以外、1:本人');
             $table->timestamps();
             $table->softDeletes()->nullable();
