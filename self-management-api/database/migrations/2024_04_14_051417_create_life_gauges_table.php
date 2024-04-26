@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('target_lifespan')->comment('目標寿命')->nullable();
             $table->boolean('is_user')->comment('本人 0:本人以外、1:本人');
             $table->timestamps();
-            $table->softDeletes()->nullable();
+            $table->softDeletes();
 
             $table->index('user_id');
         });
