@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('oauth')->comment('OAuth 1:通常会員、2:Google');
             $table->integer('status')->comment('会員ステータス 1:仮会員、2:本会員');
             $table->timestamps();
-            $table->softDeletes()->nullable();
+            $table->softDeletes();
         });
     }
 
