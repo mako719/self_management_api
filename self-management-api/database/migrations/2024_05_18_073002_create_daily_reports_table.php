@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('daily_reports', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->comment('ユーザーID');
-            $table->date('record_date')->comment('記録日');
-            $table->text('memo')->comment('メモ')->nullable();
+            $table->date('record_date')->index()->comment('記録日');
+            $table->text('memo')->nullable()->comment('メモ');
             $table->timestamps();
             $table->softDeletes();
         });

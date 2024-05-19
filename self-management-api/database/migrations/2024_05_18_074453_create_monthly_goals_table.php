@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('monthly_goals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->comment('ユーザーID');
-            $table->integer('year_month_to_set')->comment('目標設定年月');
-            $table->text('goal')->comment('目標')->nullable();
+            $table->integer('year_month_to_set')->index()->comment('目標設定年月');
+            $table->text('goal')->nullable()->comment('目標');
             $table->timestamps();
             $table->softDeletes();
         });
