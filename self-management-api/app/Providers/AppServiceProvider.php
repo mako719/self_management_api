@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\DailyReport\DailyReportRepositoryInterface;
+use App\Repositories\DailyReport\EloquentDailyReportRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(DailyReportRepositoryInterface::class, function($app) {
+            return $app->make(EloquentDailyReportRepository::class);
+        });
     }
 
     /**

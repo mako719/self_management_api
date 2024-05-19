@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalendarController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::group(['middleware' => 'api'], function () {
-
-});
+Route::group(['prefix' => '/v1'], function()
+    {
+        Route::group(['middleware' => 'api'], function () {
+            Route::get('/daily-report/{record_date?}', [CalendarController::class, 'show']);
+        });
+    }
+);
