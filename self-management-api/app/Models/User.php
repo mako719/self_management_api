@@ -51,4 +51,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(LifeGauge::class);
     }
+
+    public function dailyReports()
+    {
+        return $this->hasMany(DailyReport::class);
+    }
+
+    public function WorkDetailCategories()
+    {
+        return $this->hasMany(WorkDetailCategory::class);
+    }
+
+    public function monthlyGoals()
+    {
+        return $this->hasMany(MonthlyGoal::class);
+    }
 }
