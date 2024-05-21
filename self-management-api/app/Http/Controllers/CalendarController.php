@@ -2,33 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\DailyReportService;
+use App\Services\CalendarService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Date;
 
 class CalendarController extends Controller
 {
-    protected $dailyReportService;
+    protected $calendarService;
 
     public function __construct(
-        DailyReportService $dailyReportService
+        CalendarService $calendarService
     ) {
-        $this->dailyReportService = $dailyReportService;
+        $this->calendarService = $calendarService;
     }
 
     /**
      * 指定した日付のカレンダーの情報を返却する
      *
      * @param Request $request
-     * @param Date $reportDate
+     * @param String $reportDate
      *
      * @return Json
      */
-    public function show(Request $request, Date $reportDate)
+    public function show(Request $request, string $recordDate = null)
     {
-        $userId = 1;
-        $dailyReport = $this->dailyReportService->getDailyReport();
-        // リストとか使って、月間目標も取得する
+        $recordDate = Carbon::parse($recordDate);
+        $userId = $request->header('personal-id');
+        $dailyReport = $this->calendarService->getDailyReport($recordDate, $userId);
+        $monthlyGoal = $this->calendarService->getMonthlyGoal($recordDate, $userId);
     }
 }
