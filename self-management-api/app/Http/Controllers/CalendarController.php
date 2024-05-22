@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CalendarResource;
 use App\Services\CalendarService;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 
@@ -27,9 +27,8 @@ class CalendarController extends Controller
      */
     public function show(Request $request, string $recordDate = null)
     {
-        $recordDate = Carbon::parse($recordDate);
-        $userId = $request->header('personal-id');
-        $dailyReport = $this->calendarService->getDailyReport($recordDate, $userId);
-        $monthlyGoal = $this->calendarService->getMonthlyGoal($recordDate, $userId);
+        $calendarContents = $this->calendarService->getCalendarContents($request, $recordDate);
+
+        return new CalendarResource($calendarContents);
     }
 }

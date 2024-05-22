@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\DailyReport\DailyReportRepositoryInterface;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class CalendarService
 {
@@ -14,13 +15,17 @@ class CalendarService
         $this->dailyReportRepo = $dailyReportRepo;
     }
 
-    public function getDailyReport(Carbon $recordDate, int $userId)
+    public function getcalendarContents(Request $request, string $recordDate = null)
     {
-        return $this->dailyReportRepo->getDailyReportByRecordDate($recordDate, $userId);
-    }
+        if (is_null($recordDate)){
+            $recordDate = today();
+        } else {
+            $recordDate = Carbon::parse($recordDate);
+        }
+        $userId = $request->header('personal-id');
+        $dailyReport = $this->dailyReportRepo->getDailyReportByRecordDate($recordDate, $userId);
+        $monthlyGoal = $this->dailyReportRepo->getMonthlyGoalByRecordDate($recordDate->format('Ym'), $userId);
 
-    public function getMonthlyGoal($recordDate, $userId)
-    {
-        return $this->dailyReportRepo->getMonthlyGoalByRecordDate($recordDate->format('Y-m'), $userId);
+        return $dailyReport->push($monthlyGoal);
     }
 }
