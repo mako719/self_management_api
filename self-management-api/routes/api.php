@@ -23,6 +23,7 @@ Route::group(['prefix' => '/v1'], function()
     {
         Route::group(['middleware' => 'api'], function () {
             Route::get('/daily-report/{record_date?}', [CalendarController::class, 'show']);
+            Route::post('/daily-report/{record_date}', [CalendarController::class, 'store']);
         });
     }
 );

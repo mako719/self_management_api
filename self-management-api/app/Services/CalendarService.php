@@ -3,16 +3,19 @@
 namespace App\Services;
 
 use App\Repositories\DailyReport\DailyReportRepositoryInterface;
+use App\Repositories\MonthlyGoal\MonthlyGoalRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CalendarService
 {
     private $dailyReportRepo;
+    private $monthlyGoalRepo;
 
-    public function __construct(DailyReportRepositoryInterface $dailyReportRepo)
+    public function __construct(DailyReportRepositoryInterface $dailyReportRepo, MonthlyGoalRepositoryInterface $monthlyGoalRepo)
     {
         $this->dailyReportRepo = $dailyReportRepo;
+        $this->monthlyGoalRepo = $monthlyGoalRepo;
     }
 
     public function getcalendarContents(Request $request, string $recordDate = null)
@@ -24,8 +27,8 @@ class CalendarService
         }
         $userId = $request->header('personal-id');
         $dailyReport = $this->dailyReportRepo->getDailyReportByRecordDate($recordDate, $userId);
-        $monthlyGoal = $this->dailyReportRepo->getMonthlyGoalByRecordDate($recordDate->format('Ym'), $userId);
+        $monthlyGoal = $this->monthlyGoalRepo->getMonthlyGoalByRecordDate($recordDate->format('Ym'), $userId);
 
-        return $dailyReport->push($monthlyGoal);
+        return [$dailyReport, $monthlyGoal, $userId];
     }
 }

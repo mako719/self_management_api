@@ -7,7 +7,7 @@ use App\Services\CalendarService;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 
-class CalendarController extends Controller
+class DailyReportController extends Controller
 {
     protected $calendarService;
 
