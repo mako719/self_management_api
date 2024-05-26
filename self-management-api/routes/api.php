@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\DailyReportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +24,7 @@ Route::group(['prefix' => '/v1'], function()
     {
         Route::group(['middleware' => 'api'], function () {
             Route::get('/daily-report/{record_date?}', [CalendarController::class, 'show']);
-            Route::post('/daily-report/{record_date}', [CalendarController::class, 'store']);
+            Route::post('/daily-report', [DailyReportController::class, 'store']);
         });
     }
 );

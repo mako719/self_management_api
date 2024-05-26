@@ -2,33 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CalendarResource;
-use App\Services\CalendarService;
+use App\Services\DailyReportService;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 
 class DailyReportController extends Controller
 {
-    protected $calendarService;
+    protected $dailyReportService;
 
     public function __construct(
-        CalendarService $calendarService
+        DailyReportService $dailyReportService
     ) {
-        $this->calendarService = $calendarService;
+        $this->dailyReportService = $dailyReportService;
     }
 
     /**
-     * 指定した日付のカレンダーの情報を返却する
+     * 日報を作成する
      *
      * @param Request $request
-     * @param String $reportDate
      *
      * @return Json
      */
-    public function show(Request $request, string $recordDate = null)
+    public function store(Request $request)
     {
-        list($dailyReport, $monthlyGoal, $userId) = $this->calendarService->getCalendarContents($request, $recordDate);
+        $dailyReportId = $this->dailyReportService->createDailyReport($request);
 
-        return new CalendarResource($dailyReport, $monthlyGoal, $userId);
+        return response()->json(['daily_report_id' => $dailyReportId, 'record_time' => request('record-date')]);
     }
 }
