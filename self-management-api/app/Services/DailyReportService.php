@@ -28,7 +28,7 @@ class DailyReportService
      *
      * @param Request $request
      *
-     * @return Json
+     * @return int $dailyReportId
      */
     public function createDailyReport(Request $request)
     {
