@@ -12,6 +12,20 @@ class EloquentWorkDetailCategoryRepository implements WorkDetailCategoryReposito
     {
         $this->workDetailCategory = $workDetailCategory;
     }
+
+    /**
+     * カテゴリーの存在チェック
+     *
+     * @param string $categoryName
+     *
+     * @return Collection
+     */
+    public function categoryExistenceCheck($categoryName)
+    {
+        return $this->workDetailCategory::where('name', $categoryName)
+            ->get();
+    }
+
     /**
      * 日報の内容のカテゴリーを作成する
      *

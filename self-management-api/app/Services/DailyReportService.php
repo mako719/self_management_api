@@ -39,12 +39,14 @@ class DailyReportService
             $dailyReportId = $this->dailyReportRepo->insertDailyReport($userId, request('record-date'), $request->memo);
 
             collect($request->work_details)->each(function ($workDetail) use ($userId, $dailyReportId) {
-                // if (is_null($workDetail['category_id'])) {
-                //     $categoryId = $this->workDetailCategoryRepo->insertCategory($workDetail['category_name'], $userId);
-                // } else {
-                //     $categoryId = $workDetail['category_id'];
-                // }
-                $categoryId = $workDetail['category_id'] ?? $this->workDetailCategoryRepo->insertCategory($workDetail['category_name'], $userId);
+                $existCategory = $this->workDetailCategoryRepo->categoryExistenceCheck($workDetail['category_name']);
+
+                if ($existCategory->isNotEmpty()) {
+                    $categoryId = $workDetail->value('id');
+                } else {
+                    $categoryId = $this->workDetailCategoryRepo->insertCategory($workDetail['category_name'], $userId);
+                }
+
                 $this->workDetailRepo->insertWorkDetail($dailyReportId, $categoryId, $workDetail);
             });
 
