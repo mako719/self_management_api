@@ -26,7 +26,7 @@ class EloquentWorkDetailRepository implements WorkDetailRepositoryInterface
         $this->workDetail::create([
             'daily_report_id' => $dailyReportId,
             'work_detail_category_id' => $categoryId,
-            'content' => $workDetail['category'],
+            'content' => $workDetail['content'],
             'work_time' => $workDetail['work_time'],
         ]);
     }

@@ -41,10 +41,11 @@ class EloquentDailyReportRepository implements DailyReportRepositoryInterface
      */
     public function insertDailyReport($userId, $recordDate, $memo)
     {
-        return $this->dailyReport->insertGetId([
+        return $this->dailyReport->create([
             'user_id' => $userId,
             'record_date' => $recordDate,
             'memo' => $memo
-        ]);
+        ])->id;
+;
     }
 }

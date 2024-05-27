@@ -36,9 +36,9 @@ class EloquentWorkDetailCategoryRepository implements WorkDetailCategoryReposito
      */
     public function insertCategory($categoryName, $userId)
     {
-        return $this->workDetailCategory::insertGetId([
+        return $this->workDetailCategory::create([
             'user_id' => $userId,
             'name' => $categoryName,
-        ]);
+        ])->id;
     }
 }

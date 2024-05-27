@@ -16,6 +16,8 @@ class WorkDetail extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'daily_report_id',
+        'work_detail_category_id',
         'content',
         'work_time',
     ];

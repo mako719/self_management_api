@@ -42,7 +42,7 @@ class DailyReportService
                 $existCategory = $this->workDetailCategoryRepo->categoryExistenceCheck($workDetail['category_name']);
 
                 if ($existCategory->isNotEmpty()) {
-                    $categoryId = $workDetail->value('id');
+                    $categoryId = $existCategory->value('id');
                 } else {
                     $categoryId = $this->workDetailCategoryRepo->insertCategory($workDetail['category_name'], $userId);
                 }
@@ -50,10 +50,13 @@ class DailyReportService
                 $this->workDetailRepo->insertWorkDetail($dailyReportId, $categoryId, $workDetail);
             });
 
+            DB::commit();
+
             return $dailyReportId;
         } catch (\Exception $e) {
             report($e);
             Log::info('Insert Daily Report Error.');
+            DB::rollback();
         }
     }
 }
