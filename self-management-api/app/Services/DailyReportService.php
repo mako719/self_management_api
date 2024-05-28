@@ -59,4 +59,42 @@ class DailyReportService
             DB::rollback();
         }
     }
+
+    /**
+     * 日報を更新する
+     *
+     * @param Request $request
+     * @param int $dailyReportId
+     *
+     * @return int $dailyReportId
+     */
+    public function updateDailyReport(Request $request, int $dailyReportId)
+    {
+        $userId = $request->header('personal-id');
+
+        try {
+            DB::beginTransaction();
+            $dailyReportId = $this->dailyReportRepo->updateDailyReportMemo($dailyReportId, $request);
+
+            collect($request->work_details)->each(function ($workDetail) use ($userId, $dailyReportId) {
+                $existCategory = $this->workDetailCategoryRepo->categoryExistenceCheck($workDetail['category_name']);
+
+                if ($existCategory->isNotEmpty()) {
+                    $categoryId = $existCategory->value('id');
+                } else {
+                    $categoryId = $this->workDetailCategoryRepo->insertCategory($workDetail['category_name'], $userId);
+                }
+
+                $this->workDetailRepo->insertWorkDetail($dailyReportId, $categoryId, $workDetail);
+            });
+
+            DB::commit();
+
+            return $dailyReportId;
+        } catch (\Exception $e) {
+            report($e);
+            Log::info('Insert Daily Report Error.');
+            DB::rollback();
+        }
+    }
 }

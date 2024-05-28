@@ -46,6 +46,18 @@ class EloquentDailyReportRepository implements DailyReportRepositoryInterface
             'record_date' => $recordDate,
             'memo' => $memo
         ])->id;
-;
+    }
+
+    /**
+     * 日報のメモを更新する
+     *
+     * @param int $dailyReportId
+     * @param string $memo
+     *
+     * @return int id
+     */
+    public function updateDailyReportMemo($dailyReportId, $memo) {
+        $this->dailyReport->where('id', $dailyReportId)
+            ->update(['memo' => $memo]);
     }
 }

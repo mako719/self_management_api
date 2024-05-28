@@ -3,7 +3,6 @@
 namespace App\Repositories\MonthlyGoal;
 
 use App\Models\MonthlyGoal;
-use App\Repositories\MonthlyGoal\MonthGoalRepositoryInterface;
 
 class EloquentMonthlyGoalRepository implements MonthlyGoalRepositoryInterface
 {

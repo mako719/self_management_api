@@ -29,4 +29,18 @@ class DailyReportController extends Controller
 
         return response()->json(['daily_report_id' => $dailyReportId, 'record_time' => request('record-date')]);
     }
+
+    /**
+     * 日報を更新する
+     *
+     * @param Request $request
+     *
+     * @return Json
+     */
+    public function update(Request $request, int $dailyReportId)
+    {
+        $dailyReportId = $this->dailyReportService->updateDailyReport($request, $dailyReportId);
+
+        return response()->json(['daily_report_id' => $dailyReportId, 'record_time' => request('record-date')]);
+    }
 }
