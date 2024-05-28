@@ -25,7 +25,7 @@ Route::group(['prefix' => '/v1'], function()
         Route::group(['middleware' => 'api'], function () {
             Route::get('/daily-report/{record_date?}', [CalendarController::class, 'show'])->name('calendar.show');
             Route::post('/daily-report', [DailyReportController::class, 'store'])->name('dailyReport.create');
-            Route::put('/daily-report/{daily_report_id}', [DailyReportController::class, 'update'])->name('dailyReport.create');
+            Route::put('/daily-report/{daily_report_id}/edit', [DailyReportController::class, 'update'])->name('dailyReport.create');
         });
     }
 );
