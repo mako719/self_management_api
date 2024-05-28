@@ -18,7 +18,7 @@ class WorkDetailCollection extends ResourceCollection
     public function __construct($workDetails)
     {
         $this->workDetails = $workDetails;
-        dd($this->workDetails);
+        // dd($this->workDetails);
     }
     /**
      * Transform the resource collection into an array.

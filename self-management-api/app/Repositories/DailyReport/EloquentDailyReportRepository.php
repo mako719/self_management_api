@@ -54,10 +54,14 @@ class EloquentDailyReportRepository implements DailyReportRepositoryInterface
      * @param int $dailyReportId
      * @param string $memo
      *
-     * @return int id
+     * @return DailyReport $dailyReport
      */
     public function updateDailyReportMemo($dailyReportId, $memo) {
-        $this->dailyReport->where('id', $dailyReportId)
-            ->update(['memo' => $memo]);
+        $dailyReport = $this->dailyReport->with('workDetails.workDetailCategory')
+            ->where('id', $dailyReportId)->first();
+        $dailyReport->memo = $memo;
+        $dailyReport->save();
+
+        return $dailyReport;
     }
 }

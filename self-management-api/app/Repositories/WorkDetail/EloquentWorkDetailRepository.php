@@ -30,4 +30,16 @@ class EloquentWorkDetailRepository implements WorkDetailRepositoryInterface
             'work_time' => $workDetail['work_time'],
         ]);
     }
+
+    /**
+     * 日報の内容を作成する
+     *
+     * @param int $dailyReportId
+     *
+     */
+    public function deleteExistWorkDetail($workDetailId)
+    {
+        $this->workDetail::find($workDetailId)
+            ->delete();
+    }
 }

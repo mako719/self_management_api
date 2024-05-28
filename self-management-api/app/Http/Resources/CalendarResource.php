@@ -34,7 +34,7 @@ class CalendarResource extends JsonResource
         $workDetails = collect();
         if ($this->dailyReport) {
             $this->dailyReport->each(function ($report) use ($workDetails) {
-                dd($report->workDetails);
+                // dd($report->workDetails);
                 $workDetails->push($report->id, $report->workDetailCategory->name);
             });
             // $workDetails = WorkDetailResource::collection($workDetails);

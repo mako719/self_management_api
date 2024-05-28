@@ -74,7 +74,11 @@ class DailyReportService
 
         try {
             DB::beginTransaction();
-            $dailyReportId = $this->dailyReportRepo->updateDailyReportMemo($dailyReportId, $request);
+            $dailyReport = $this->dailyReportRepo->updateDailyReportMemo($dailyReportId, $request->memo);
+
+            $dailyReport->workDetails->each(function ($workDetail) {
+                $this->workDetailRepo->deleteExistWorkDetail($workDetail->id);
+            });
 
             collect($request->work_details)->each(function ($workDetail) use ($userId, $dailyReportId) {
                 $existCategory = $this->workDetailCategoryRepo->categoryExistenceCheck($workDetail['category_name']);
@@ -90,6 +94,7 @@ class DailyReportService
 
             DB::commit();
 
+            // idがnullだとトランザクションでコケてるのに対し、ここでreturnするとid = nullがreturnされてしまう
             return $dailyReportId;
         } catch (\Exception $e) {
             report($e);
