@@ -20,7 +20,7 @@ class CalendarService
 
     public function getcalendarContents(Request $request, string $recordDate = null)
     {
-        if (is_null($recordDate)){
+        if (is_null($recordDate)) {
             $recordDate = today();
         } else {
             $recordDate = Carbon::parse($recordDate);
