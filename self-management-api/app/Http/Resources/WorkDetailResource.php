@@ -12,9 +12,15 @@ class WorkDetailResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    public function toArray(Request $request)
     {
-        // dd($request);
-        return parent::toArray($request);
+        dd($this);
+        return [
+            'work_detail_id' => $this->value('id'),
+            'category_id' => $this->pluck('workDetailCategory')->where('id', $this->value('work_detail_category_id'))->value('id'),
+            'category_name' => $this->pluck('workDetailCategory')->where('id', $this->value('work_detail_category_id'))->value('name'),
+            'content' => $this->value('content'),
+            'work_time' => $this->value('work_time'),
+        ];
     }
 }

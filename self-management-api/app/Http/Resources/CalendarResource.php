@@ -31,26 +31,30 @@ class CalendarResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $workDetails = collect();
-        if ($this->dailyReport) {
-            $this->dailyReport->each(function ($report) use ($workDetails) {
-                // dd($report->workDetails);
-                $workDetails->push($report->id, $report->workDetailCategory->name);
-            });
-            // $workDetails = WorkDetailResource::collection($workDetails);
+        // $workDetails = collect();
+        // if ($this->dailyReport) {
+        //     $this->dailyReport->each(function ($report) use ($workDetails) {
+        //         // dd($report->workDetails);
+        //         $workDetails->push($report->workDetails);
+        //     });
+            // dd($this->dailyReport->pluck('workDetails'));
+            // $workDetails = WorkDetailResource::collection($this->dailyReport->pluck('workDetails'));
             // $workDetails = new WorkDetailCollection($workDetails);
-        }
+        // }
         return [
             'data' => [
                 'user_id' => $this->userId,
                 'daily_report' => [
                     'id' => $this->dailyReport->value('id'),
-                    'contents' => $workDetails,
+                    'contents' => WorkDetailResource::collection($this->dailyReport->pluck('workDetails')),
+                    'memo' => $this->dailyReport->value('memo'),
                 ],
+                'monthly_goal_id' => $this->monthlyGoal->value('id'),
+                'monthly_goal' => $this->monthlyGoal->value('goal'),
             ],
-            'links' => [
-                'self' => 1,
-            ]
+            // 'links' => [
+            //     'self' => ,
+            // ]
         ];
     }
 }

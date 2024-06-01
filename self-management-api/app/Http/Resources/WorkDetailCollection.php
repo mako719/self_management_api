@@ -18,7 +18,6 @@ class WorkDetailCollection extends ResourceCollection
     public function __construct($workDetails)
     {
         $this->workDetails = $workDetails;
-        // dd($this->workDetails);
     }
     /**
      * Transform the resource collection into an array.
@@ -28,11 +27,11 @@ class WorkDetailCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'work_detail_id' => $this->id,
-            'category_id' => 14,
-            'category_name' => 14,
-            'content' => 14,
-            'work_time' => 1,
+            'work_detail_id' => $this->workDetails->value('id'),
+            'category_id' => $this->workDetails->pluck('workDetailCategory')->where('id', $this->workDetails->value('work_detail_category_id'))->value('id'),
+            'category_name' => $this->workDetails->pluck('workDetailCategory')->where('id', $this->workDetails->value('work_detail_category_id'))->value('name'),
+            'content' => $this->workDetails->value('content'),
+            'work_time' => $this->workDetails->value('work_time'),
         ];
     }
 }
