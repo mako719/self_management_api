@@ -14,7 +14,6 @@ class WorkDetailResource extends JsonResource
      */
     public function toArray(Request $request)
     {
-        dd($this);
         return [
             'work_detail_id' => $this->value('id'),
             'category_id' => $this->pluck('workDetailCategory')->where('id', $this->value('work_detail_category_id'))->value('id'),
