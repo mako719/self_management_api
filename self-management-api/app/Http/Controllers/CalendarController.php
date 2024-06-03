@@ -29,6 +29,31 @@ class CalendarController extends Controller
     {
         list($dailyReport, $monthlyGoal, $userId) = $this->calendarService->getCalendarContents($request, $recordDate);
 
-        return new CalendarResource($dailyReport, $monthlyGoal, $userId);
+        $result = collect();
+        $dailyReport->each(function ($dailyReport) use (&$result) {
+            $dailyReport->workDetails->each(function ($workDetail) use (&$result) {
+                $result->push([
+                    'work_detail_id' => $workDetail->id,
+                    'category_id' => $workDetail->work_detail_category_id,
+                    'category_name' => $workDetail->workDetailCategory->name,
+                    'content' => $workDetail->content,
+                    'work_time' => $workDetail->work_time,
+                ]);
+            });
+        });
+
+        return [
+            'data' => [
+                'user_id' => 1,
+                'daily_report' => [
+                    'id' => 1,
+                    'contents' => $result->toArray(),
+                    'memo' => 1,
+                ],
+                'monthly_goal_id' => 1,
+                'monthly_goal' => 1,
+            ],
+        ];
+        // return new CalendarResource($dailyReport, $monthlyGoal, $userId);
     }
 }
